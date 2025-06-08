@@ -13,6 +13,12 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>catalog-service</name>
 	<description>Catalog Serivce</description>
+	<properties>
+		<java.version>21</java.version>
+		<springdoc-openapi.version>2.8.8</springdoc-openapi.version>
+		<spotless-maven-plugin.version>2.44.4</spotless-maven-plugin.version>
+		<dockerImageName>minhdangdev/bookstore-${project.artifactId}</dockerImageName>
+	</properties>
 	<url/>
 	<licenses>
 		<license/>
@@ -26,9 +32,7 @@
 		<tag/>
 		<url/>
 	</scm>
-	<properties>
-		<java.version>17</java.version>
-	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -58,7 +62,7 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>2.8.8</version>
+			<version>${springdoc-openapi.version}</version>
        </dependency>		
 		<dependency>
 			<groupId>io.rest-assured</groupId>
@@ -113,7 +117,23 @@
 	</dependencies>
 
 	<build>
-		<plugins>
+			<plugins>
+				<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<image>
+						<name>${dockerImageName}</name>
+					</image>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>build-image-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -186,7 +206,7 @@
 			<plugin>
 				<groupId>com.diffplug.spotless</groupId>
 				<artifactId>spotless-maven-plugin</artifactId>
-				<version>2.43.0</version>
+				<version>${spotless-maven-plugin.version}</version>
 				<configuration>
 					<java>
 					<importOrder />
