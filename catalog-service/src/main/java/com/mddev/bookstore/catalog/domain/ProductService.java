@@ -3,6 +3,7 @@ package com.mddev.bookstore.catalog.domain;
 import com.mddev.bookstore.catalog.ApplicatioinProperties;
 import jakarta.transaction.Transactional;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -11,14 +12,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ProductService {
   private final ProductRepository productRepository;
   private final ApplicatioinProperties properties;
-
-  ProductService(ProductRepository productRepository, ApplicatioinProperties properties) {
-    this.productRepository = productRepository;
-    this.properties = properties;
-  }
 
   public PageResult<Product> getProducts(int pageNo) {
     Sort sort = Sort.by("name").ascending();
